@@ -2,7 +2,8 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose'); 
 const methodOverride = require('method-override');
-
+const ejsMate = require('ejs-mate')
+const morgan = require('morgan')
 const Campground = require('./models/campground');
 
 // localhost:27027 is default
@@ -14,6 +15,7 @@ const app = express();
 // patch, delete and so on using method override 
 
 
+app.engine('ejs', ejsMate)
 // set the view engine, let the express will assume there is the views directory 
 app.set('view engine', 'ejs');
 // __dirmame will be __dirname: the directory of current file on (app.js) 
@@ -22,6 +24,11 @@ app.set('views', path.join(__dirname, 'views'));
 // told the express to parse the request 
 app.use(express.urlencoded({extended: true}))  
 app.use(methodOverride('_method'))
+
+// use morgan middleware 
+app.use(morgan('tiny'))
+
+// we could check the authentication in the middleware 
 
 const db = mongoose.connection; 
 db.on("error", console.error.bind(console, "connection error:")); 
