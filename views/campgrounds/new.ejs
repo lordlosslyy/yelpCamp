@@ -2,29 +2,45 @@
 <div class="row">
     <h1 class="text-center">New Campgound</h1>
         <div class="col-6 offset-3">
-            <form action="/campgrounds" method="POST">
+            <!-- use bootstrap validation template-->
+            <form action="/campgrounds" method="POST" novalidate class='validation-form'>
                 <div class="mb-3">
                     <label class="form-label" for='title'>Title</label>
-                    <input class="form-control" type='text' id='title' name="campground[title]">
+                    <input class="form-control" type='text' id='title' name="campground[title]" required>
+                    <div class="valid-feedback">
+                        Looks food!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <labal class="form-label" for='location'>Location</labal>
-                    <input class="form-control" type='text' id='location' name="campground[location]">
+                    <input class="form-control" type='text' id='location' name="campground[location]" required>
+                    <div class="valid-feedback">
+                        Looks food!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <labal class="form-label" for='image'>Image Url</labal>
-                    <input class="form-control" type='text' id='image' name="campground[image]">
+                    <input class="form-control" type='text' id='image' name="campground[image]" required>
+                    <div class="valid-feedback">
+                        Looks food!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <labal class="form-label" for='price'>Campground Price</labal>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="price-label">$</span>
-                        <input type="text" class="form-control" placeholder="0.00" aria-label="Price" aria-describedby="price-label" name="campground[price]">
+                        <input type="text" class="form-control" placeholder="0.00" aria-label="Price" aria-describedby="price-label" name="campground[price]" required>
+                        <div class="valid-feedback">
+                            Looks food!
+                        </div>
                     </div>
                 </div>
                 <div class="mb-3">
                     <labal class="form-label" for='description'>Description</labal>
-                    <textarea class="form-control" type='text' id='description' name="campground[description]"></textarea>
+                    <textarea class="form-control" type='text' id='description' name="campground[description]" required></textarea>
+                    <div class="valid-feedback">
+                        Looks food!
+                    </div>
                 </div>
                 <div class="mb-3">
                 <button classs="btn btn-success">Add Campground</button>
@@ -33,5 +49,3 @@
             <a href="/campgrounds">All Campgrounds</a>
         </div>
 </div>
-
-

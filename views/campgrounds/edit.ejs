@@ -5,31 +5,46 @@
         <div class="col-6 offset-3">
             <!-- eidt request: put or patch for express-->
             <!-- since we use _method as our override-->
-            <form action="/campgrounds/<%= campground._id%>?_method=PUT" method="POST">
+            <form action="/campgrounds/<%= campground._id%>?_method=PUT" method="POST" novalidate class="validation-form">
                 <!--  value is the starting value-->
                 <div class="mb-3">
                     <label class="form-label" for='title'>Title</label>
-                    <input class="form-control" type='text' id='title' name="campground[title]" value="<%= campground.title %>">
+                    <input class="form-control" type='text' id='title' name="campground[title]" value="<%= campground.title %>" required>
+                    <div class="valid-feedback">
+                        Looks food!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <labal class="form-label" for='location'>Location</labal>
-                    <input class="form-control" type='text' id='location' name="campground[location]" value="<%= campground.location %>">
+                    <input class="form-control" type='text' id='location' name="campground[location]" value="<%= campground.location %>" required>
+                    <div class="valid-feedback">
+                        Looks food!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <labal class="form-label" for='image'>Image Url</labal>
-                    <input class="form-control" type='text' id='image' name="campground[image]" value="<%= campground.image %>">
+                    <input class="form-control" type='text' id='image' name="campground[image]" value="<%= campground.image %>" required>
+                    <div class="valid-feedback">
+                        Looks food!
+                    </div>
                 </div>
                 
                 <div class="mb-3">
                     <labal class="form-label" for='price'>Campground Price</labal>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="price-label">$</span>
-                        <input type="text" class="form-control" placeholder="0.00" aria-label="Price" aria-describedby="price-label" name="campground[price]" value="<%= campground.price %>">
-                    </div>
+                        <input type="text" class="form-control" placeholder="0.00" aria-label="Price" aria-describedby="price-label" name="campground[price]" value="<%= campground.price %>" required>
+                        <div class="valid-feedback">
+                            Looks food!
+                        </div>
+                    </div>                    
                 </div>
                 <div class="mb-3">
                     <labal class="form-label" for='description'>Description</labal>
-                    <textarea class="form-control" type='text' id='description' name="campground[description]" ><%= campground.description %></textarea>
+                    <textarea class="form-control" type='text' id='description' name="campground[description]" required><%= campground.description %></textarea>
+                    <div class="valid-feedback">
+                        Looks food!
+                    </div>
                 </div>
                 <div class="mb-3">
                 <button classs="btn btn-success">Edit Campground</button>
