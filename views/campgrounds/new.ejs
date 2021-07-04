@@ -3,7 +3,8 @@
     <h1 class="text-center">New Campgound</h1>
         <div class="col-6 offset-3">
             <!-- use bootstrap validation template-->
-            <form action="/campgrounds" method="POST" novalidate class='validation-form'>
+            <!-- enctype="multipart/form-data" for files -->
+            <form action="/campgrounds" method="POST" novalidate class='validation-form' enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label" for='title'>Title</label>
                     <input class="form-control" type='text' id='title' name="campground[title]" required>
@@ -18,13 +19,16 @@
                         Looks food!
                     </div>
                 </div>
-                <div class="mb-3">
+
+                
+                <!-- <input type="file" name="image" id="" multiple> -->
+                    <!-- <div class="mb-3"></div>
                     <labal class="form-label" for='image'>Image Url</labal>
                     <input class="form-control" type='text' id='image' name="campground[image]" required>
                     <div class="valid-feedback">
                         Looks food!
-                    </div>
-                </div>
+                    </div> 
+                    </div> -->
                 <div class="mb-3">
                     <labal class="form-label" for='price'>Campground Price</labal>
                     <div class="input-group mb-3">
@@ -42,6 +46,15 @@
                         Looks food!
                     </div>
                 </div>
+
+                <!-- <div class="input-group mb-3 custom-file">
+                    <input type="file" class="form-control" id="image" name="image" multiple>
+                </div> -->
+                <div class="custom-file mb-3 ">
+                    <label for="formFileMultiple" class="form-label">Upload Images</label>
+                    <input class="form-control" type="file" id="formFileMultiple" multiple>
+                </div>
+                
                 <div class="mb-3">
                 <button classs="btn btn-success">Add Campground</button>
                 </div>

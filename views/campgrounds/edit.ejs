@@ -5,7 +5,7 @@
         <div class="col-6 offset-3">
             <!-- eidt request: put or patch for express-->
             <!-- since we use _method as our override-->
-            <form action="/campgrounds/<%= campground._id%>?_method=PUT" method="POST" novalidate class="validation-form">
+            <form action="/campgrounds/<%= campground._id%>?_method=PUT" method="POST" novalidate class="validation-form" enctype="multipart/form-data">
                 <!--  value is the starting value-->
                 <div class="mb-3">
                     <label class="form-label" for='title'>Title</label>
@@ -21,14 +21,12 @@
                         Looks food!
                     </div>
                 </div>
-                <div class="mb-3">
-                    <labal class="form-label" for='image'>Image Url</labal>
-                    <input class="form-control" type='text' id='image' name="campground[image]" value="<%= campground.image %>" required>
-                    <div class="valid-feedback">
-                        Looks food!
-                    </div>
-                </div>
+
+
                 
+                
+                
+
                 <div class="mb-3">
                     <labal class="form-label" for='price'>Campground Price</labal>
                     <div class="input-group mb-3">
@@ -45,6 +43,23 @@
                     <div class="valid-feedback">
                         Looks food!
                     </div>
+                </div>
+                <!-- <div class="mb-3">
+                    <labal class="form-label" for='image'>Add Image</labal>
+                    <input type="file" name="image" id="image" multiple>
+                </div> -->
+                <div class="custom-file mb-3 ">
+                    <label for="formFileMultiple" class="form-label">Add Images</label>
+                    <input class="form-control" type="file" name="image" id="formFileMultiple" multiple>
+                </div>
+                <div class="mb-3"> 
+                    <% campground.images.forEach(function(img, i) { %>
+                        <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="">
+                        <div class="form-check-inline">
+                            <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%= img.filename %>">
+                        </div>
+                        <label for="image-<%=i%>">Delete?</label>
+                    <% }) %> 
                 </div>
                 <div class="mb-3">
                 <button classs="btn btn-success">Edit Campground</button>
