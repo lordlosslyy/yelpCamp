@@ -7,13 +7,17 @@ const ImageSchema = new Schema({
     filename: String
 });
 
+// https://mongoosejs.com/docs/tutorials/virtuals.html
 ImageSchema.virtual('thumbnail').get(function () {
     return this.url.replace('/upload', '/upload/w_200');
 });
 
-const CampGroundSchema = new Schema({
+
+const opts = { toJSON: { virtuals: true } }; 
+
+const CampGroundSchema = new Schema({ 
     title: String, 
-    images: [ImageSchema],
+    images: [ ],
     // GeoJSON 
     geometry: {
         type: {
@@ -39,11 +43,15 @@ const CampGroundSchema = new Schema({
             ref: 'Review'
         }
     ]
-})
+}, opts); 
 
 // mongo middleware 
 // pre: before sth
 // post: after sth 
+
+CampGroundSchema.virtual('properties.popUpMarkup').get(function () {
+    return `<strong><a href="/campgrounds/${this._id}">${this.title}</a></strong>`
+});
 
 CampGroundSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {
