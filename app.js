@@ -15,7 +15,10 @@ const morgan = require('morgan');
 
 const passport = require('passport'); 
 //
+const mongoSanitize = require('express-mongo-sanitize');
+
 const LocalStrategy = require('passport-local');
+const helmet = require('helmet')
 
 const User = require('./models/user'); 
 const Campground = require('./models/campground');
@@ -26,8 +29,13 @@ const campgroundRoute = require('./routes/campgrounds');
 const reviewRoute = require('./routes/reviews');
 const userRoute = require('./routes/users');
 
+const MongoStore = require('connect-mongo');
+
 // localhost:27027 is default
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+// 'mongodb://localhost:27017/yelp-camp'
+// const dbUrl = process.env.DB_URL; 
+const dbUrl = 'mongodb://localhost:27017/yelp-camp'
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true, 
@@ -63,8 +71,70 @@ app.use(methodOverride('_method'))
 // serve static file 
 app.use(express.static(path.join(__dirname,'public')));
 
-//  
+app.use(mongoSanitize())
+// helmet
+app.use(helmet())
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://api.mapbox.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+];
+const styleSrcUrls = [
+    "https://cdn.jsdelivr.net/npm/", 
+    "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.mapbox.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
+];
+const connectSrcUrls = [
+    "https://cdn.jsdelivr.net/npm/",
+    "https://api.mapbox.com/",
+    "https://a.tiles.mapbox.com/",
+    "https://b.tiles.mapbox.com/",
+    "https://events.mapbox.com/",
+];
+const fontSrcUrls = [];
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/duvubltj3/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+                "https://images.unsplash.com/",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
+
+//  session 
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl, 
+    secret: 'secret', 
+    touchAfter: 24 * 3600
+})
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e);
+});
+
 const sessionConfig = {
+    store, 
+    name: 'session',
     secret: 'secret', 
     resave: false, 
     saveUninitialized: true,
@@ -72,12 +142,14 @@ const sessionConfig = {
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7,
         // security thing
-        HttpOnly: true
+        HttpOnly: true, 
+        // secure:  true
     }, 
     
 }
 
 app.use(session(sessionConfig)); 
+
 app.use(flash())
 
 // passport: http://www.passportjs.org/docs/downloads/html/ 
@@ -121,7 +193,7 @@ app.use('/', userRoute);
 
 
 app.get('/', (req, res) => {
-    res.render('HELLO'); 
+    res.render('home'); 
 });
 
 

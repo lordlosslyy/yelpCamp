@@ -17,7 +17,7 @@ const opts = { toJSON: { virtuals: true } };
 
 const CampGroundSchema = new Schema({ 
     title: String, 
-    images: [ ],
+    images: [ImageSchema],
     // GeoJSON 
     geometry: {
         type: {

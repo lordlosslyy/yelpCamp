@@ -51,7 +51,7 @@ module.exports.showCampground = async (req, res) => {
 
 module.exports.renderEditForm = async(req, res) => {
     const {id} = req.params;
-    const campground = await Campground.findById(id); 
+    const campground = await Campground.findById(id);
     /* I think it is unnecessary 
     if (!campground) {
         req.flash('error', 'Cannot find that campground!');
